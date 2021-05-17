@@ -3,6 +3,7 @@ using NUnit.Framework;
 
 namespace TaxCalculator.Tests
 {
+    [Ignore("")]
     class TaxCalculatorDieselTest
     {
         private static readonly DateTime FirstOfJanuary2019 = new DateTime(2019, 1, 1);
