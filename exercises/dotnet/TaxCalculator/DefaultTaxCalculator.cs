@@ -8,12 +8,28 @@ namespace TaxCalculator
     {
         public override int CalculateTax(Vehicle vehicle)
         {
-            var emissions = vehicle.Co2Emissions;
-            int cost = 0;
+            var actualEmissions = vehicle.Co2Emissions;
+            var emissionCosts = new Emissions().emissonCostMap;
+            var cost = 0;
+
+            foreach (KeyValuePair<EmissionProperties, int> condition in emissionCosts)
+            {
+                var lowerLimit = condition.Key.lowerLimit;
+                var upperLimit = condition.Key.upperLimit;
+
+                if (actualEmissions >= lowerLimit && actualEmissions <= upperLimit)
+                {
+                    cost = condition.Value;
+                }
+            }
+
+            return cost;
             
+            /*
             if(emissions == 0) {
                 return cost;
-            } else if (emissions <= 50)
+            } 
+            else if (emissions <= 50)
             {
                 cost = 10;
             }
@@ -56,13 +72,14 @@ namespace TaxCalculator
             else if (emissions <= 255)
             {
                 cost = 1760;
-            } else
+            } 
+            else
             {
                 cost = 2070;
             }
 
-
             return cost;
+            */
         }
     }
 }
