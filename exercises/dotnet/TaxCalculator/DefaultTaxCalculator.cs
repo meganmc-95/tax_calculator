@@ -9,8 +9,24 @@ namespace TaxCalculator
         public override int CalculateTax(Vehicle vehicle)
         {
             var actualEmissions = vehicle.Co2Emissions;
-            var emissionCosts = new Emissions().emissonCostMap;
+            var emissionCosts = new Dictionary<EmissionProperties, int>();
+            var petrolCosts = new Emissions().petrolEmissions;
+            var dieselCosts = new Emissions().dieselEmissions;
+            var alternativeFuelCosts = new Emissions().alternativeFuelEmissions;
             var cost = 0;
+
+            switch(vehicle.FuelType)
+            {
+                case FuelType.Petrol:
+                    emissionCosts = petrolCosts;
+                    break;
+                case FuelType.Diesel:
+                    emissionCosts = dieselCosts;
+                    break;
+                case FuelType.AlternativeFuel:
+                    emissionCosts = alternativeFuelCosts;
+                    break;
+            }
 
             foreach (KeyValuePair<EmissionProperties, int> condition in emissionCosts)
             {
@@ -24,62 +40,6 @@ namespace TaxCalculator
             }
 
             return cost;
-            
-            /*
-            if(emissions == 0) {
-                return cost;
-            } 
-            else if (emissions <= 50)
-            {
-                cost = 10;
-            }
-            else if (emissions <= 75)
-            {
-                cost = 25;
-            }
-            else if (emissions <= 90)
-            {
-                cost = 105;
-            }
-            else if (emissions <= 100)
-            {
-                cost = 125;
-            }
-            else if (emissions <= 110)
-            {
-                cost = 145;
-            }
-            else if (emissions <= 130)
-            {
-                cost = 165;
-            }
-            else if (emissions <= 150)
-            {
-                cost = 205;
-            }
-            else if (emissions <= 170)
-            {
-                cost = 515;
-            }
-            else if (emissions <= 190)
-            {
-                cost = 830;
-            }
-            else if (emissions <= 225)
-            {
-                cost = 1240;
-            }
-            else if (emissions <= 255)
-            {
-                cost = 1760;
-            } 
-            else
-            {
-                cost = 2070;
-            }
-
-            return cost;
-            */
         }
     }
 }
